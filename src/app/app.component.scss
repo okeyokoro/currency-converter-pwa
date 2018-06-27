@@ -1,0 +1,67 @@
+.title {
+    font-size: 23px
+}
+
+.card {
+    width: 285px;
+    margin: 0 auto;
+}
+
+.packaging {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+
+    .section {
+        display: flex;
+        transition: all .3s ease;
+    }
+}
+
+//inner stuff
+.wrapper {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+
+    .row {
+        display: flex;
+        transition: all .3s ease;
+    }
+}
+
+.inside {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-column-gap: 10px;
+
+    .division {
+        display: flex;
+        transition: all .3s ease;
+    }
+}
+
+.chart {
+    height:100px; 
+    margin-top: 16%
+}
+
+// responsiveness
+@media screen and  (min-width: 800px) {
+    .title {
+        font-size: 30px
+    }
+
+    .card {
+        width: 700px;
+        height: 250px;
+        margin: 0 auto;
+    }
+
+    .packaging {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .chart {
+        height:110px; 
+        margin-top: 26%
+    }
+}
