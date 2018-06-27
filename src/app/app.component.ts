@@ -1,7 +1,5 @@
 import { Component,
-         OnInit,
-         OnChanges,
-         AfterViewInit } from '@angular/core';
+         OnInit } from '@angular/core';
 import { CurrencyServiceService } from './currency-service.service';
 
 @Component({
