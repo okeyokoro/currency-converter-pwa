@@ -2,7 +2,7 @@
     "name": "ALC Currency Converter",
     "short_name": "currency-converter",
     "lang": "en-GB",
-    "start_url": "./?utm_source=web_app_manifest",
+    "start_url": "https:\/\/13ck015405.github.io\/alc-currency-converter\/",
     "display": "standalone",
     "theme_color": "#d5e6f2",
     "background_color": "#ffffff",
