@@ -6,13 +6,14 @@ this.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(CACHE_NAME).then(
             (cache) => {
+                let base = 'https://13ck015405.github.io/alc-currency-converter/';
                 return cache.addAll([
-                    `${window.location.href}index.html`,
-                    `${window.location.href}main.c0692be5fde3233d7ed9.js`,
-                    `${window.location.href}polyfills.7a0e6866a34e280f48e7.js`,
-                    `${window.location.href}runtime.a66f828dca56eeb90e02.js`,
-                    `${window.location.href}styles.7621cbd6ab483dbe4bee.css`,
-                    `${window.location.href}manifest.json`,
+                    `${base}index.html`,
+                    `${base}main.c0692be5fde3233d7ed9.js`,
+                    `${base}polyfills.7a0e6866a34e280f48e7.js`,
+                    `${base}runtime.a66f828dca56eeb90e02.js`,
+                    `${base}styles.7621cbd6ab483dbe4bee.css`,
+                    `${base}manifest.json`,
                     'https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxPKTU1Kg.ttf'
                 ]);
             }
