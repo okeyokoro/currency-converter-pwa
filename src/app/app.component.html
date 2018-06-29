@@ -16,7 +16,7 @@
             <div class="inside">
               <div class="division">
                 <mat-form-field style="width:100px !important">
-                  <input matInput [(ngModel)]="n1" (keyup)="onInputOne()">
+                  <input matInput [(ngModel)]="n1" (keyup)="onInputOne()" class="cleave">
                 </mat-form-field> 
               </div>
   
@@ -38,7 +38,7 @@
             <div class="inside">
               <div class="division">
                 <mat-form-field style="width:100px !important">
-                  <input matInput [(ngModel)]="n2" (keyup)="onInputTwo()">
+                  <input matInput [(ngModel)]="n2" (keyup)="onInputTwo()" class="cleave">
                 </mat-form-field> 
               </div>
   
@@ -58,7 +58,7 @@
       </div>
 
       <div class="section" style="height:initial">
-        <img src="{{chart}}" alt="chart" class="chart">
+        <img src="{{chart}}" alt="chart" class="chart" (error)="nowOffline()">
       </div>
 
     </div>

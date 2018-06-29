@@ -1,7 +1,16 @@
 # Currency Converter
-A cheeky currency converter app built in accordance with the terms necessary for the completion of the Google Africa Challenge Scholarship
+A cheeky currency converter PWA built in accordance with the terms necessary for the completion of the Google Africa Challenge Scholarship.
 
 N/B: This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+
+## For the code reviewer
+The files of interest are located below:
+
+`src\sw.js`
+
+`src\app\app.component.ts`
+
+`src\app\currency-converter.service.ts`
 
 ## Get it up & running
 Clone the repo
@@ -12,9 +21,6 @@ Run `npm install`
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 

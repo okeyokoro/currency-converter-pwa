@@ -2,6 +2,9 @@ import { Component,
          OnInit } from '@angular/core';
 import { CurrencyServiceService } from './currency-service.service';
 import { MatSnackBar } from '@angular/material';
+import idb from 'idb';
+// import Cleave = require('cleave.js');
+
 
 @Component({
   selector: 'app-root',
@@ -19,6 +22,7 @@ export class AppComponent implements
   rate;
   currencies = [];
   chart;
+  db;
 
   constructor(private currencyService: CurrencyServiceService,
               public snackBar: MatSnackBar) {}
@@ -30,6 +34,12 @@ export class AppComponent implements
 
     // this is where the offline journey begins
     this.registerServiceWorker();
+
+    this.db = this.openDatabase();
+
+    // const cleave = new Cleave('.cleave', {
+    //   numeral: true
+    // });
   }
 
   onSelect() {
@@ -38,11 +48,11 @@ export class AppComponent implements
   }
 
   onInputOne() {
-    this.n2 = parseFloat((this.rate * this.n1).toFixed(3));
+    this.n2 = parseFloat((this.rate * Number(String(this.n1).split(',').join(''))).toFixed(3));
   }
 
   onInputTwo() {
-    this.n1 = parseFloat((this.n2 / this.rate).toFixed(3));
+    this.n1 = parseFloat((Number(String(this.n2).split(',').join('')) / this.rate).toFixed(3));
   }
 
   getCurrencies(): void {
@@ -63,6 +73,19 @@ export class AppComponent implements
           response => {
             this.rate = parseFloat(Object.entries(response)[0][1].toFixed(3));
             this.n2 = this.n1 * this.rate;
+
+            // store in db
+            this.db.then( (db) => {
+              if (!db) { return; }
+              const tx = db.transaction('exchange-rates', 'readwrite');
+              const store = tx.objectStore('exchange-rates');
+              const idx = `${c1}_${c2}`;
+              const data = {};
+              data['id'] = idx;
+              data['exchange-rate'] = response[idx];
+              data['time'] = new Date().toLocaleString();
+              store.put(data);
+            });
           }
         );
   }
@@ -72,9 +95,9 @@ export class AppComponent implements
   }
 
   registerServiceWorker() {
-    if (!navigator.serviceWorker){ return; }
+    if (!navigator.serviceWorker) { return; }
 
-    navigator.serviceWorker.register('/sw.js').then( (reg) => {
+    navigator.serviceWorker.register(`${window.location.href}sw.js`).then( (reg) => {
       if (!navigator.serviceWorker.controller) {
         return;
       }
@@ -106,13 +129,23 @@ export class AppComponent implements
 
   }
 
+  nowOffline() {
+    const snackBarRef = this.snackBar.open(`😐 Unable to connect.
+    \nYou can only convert currencies you converted previously`,
+                                           'Retry?');
+    snackBarRef.afterDismissed().subscribe( (event) => {
+      this.onSelect();
+    }
+    );
+  }
+
   updateReady(worker) {
 
     const snackBarRef = this.snackBar.open(`🤩Updates Available!`,
                                            'Reload');
     snackBarRef.afterDismissed().subscribe( (event) => {
       console.log(`snackBar was clicked: ${event}`);
-      worker.postMessage({action: 'skipWaiting'})
+      worker.postMessage({action: 'skipWaiting'});
     }
     );
   }
@@ -120,10 +153,23 @@ export class AppComponent implements
   trackInstalling(worker) {
 
     console.log('inside trackInstalling');
-    worker.addEventListner('statechange', () => {
+    worker.addEventListener('statechange', () => {
       if (worker.state == 'installed') {
         this.updateReady(worker);
       }
+    });
+  }
+
+  openDatabase() {
+    // If the browser doesn't support service worker,
+    // we don't care about having a database
+    if (!navigator.serviceWorker) {
+      return Promise.resolve();
+    }
+
+    return idb.open('alc-currency-converter', 1, (event) => {
+      const store = event.createObjectStore('exchange-rates',
+              {keyPath: 'id'});
     });
   }
 }

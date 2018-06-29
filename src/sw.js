@@ -1,14 +1,4 @@
-// OBJECTIVES
-// + store actual page
-// + store server response
-// + store rate
-// + store chart
-// + update page when updates show
-// + show toaster for 'new updates'
-// + show poster saying 'showing old posts'
-
-
-const CACHE_NAME = "alc-v5";
+const CACHE_NAME = "alc-cc-v5";
 
 this.addEventListener('install', function(event) {
     event.waitUntil(
@@ -55,7 +45,7 @@ self.addEventListener('fetch', event => {
         fetch(event.request)
         .then(function(newResponse) {
             const response = newResponse.clone();
-            console.log(`Adding network response to cache`)
+            console.log(`Storing network response`)
 
             caches.open(CACHE_NAME).then(
                 cache => cache.put(event.request, response)
