@@ -1,6 +1,4 @@
-const CACHE_NAME = "alc-v5";
-
-console.log('Inside Service Worker');
+const CACHE_NAME = "alc-v2";
 
 this.addEventListener('install', function(event) {
     event.waitUntil(
@@ -9,7 +7,7 @@ this.addEventListener('install', function(event) {
                 let base = 'https://13ck015405.github.io/alc-currency-converter/';
                 return cache.addAll([
                     `${base}index.html`,
-                    `${base}main.c0692be5fde3233d7ed9.js`,
+                    `${base}main.7e5e56438a01f4e0711b.js`,
                     `${base}polyfills.7a0e6866a34e280f48e7.js`,
                     `${base}runtime.a66f828dca56eeb90e02.js`,
                     `${base}styles.7621cbd6ab483dbe4bee.css`,
@@ -47,7 +45,7 @@ self.addEventListener('fetch', event => {
         fetch(event.request)
         .then(function(newResponse) {
             const response = newResponse.clone();
-            console.log(`Adding network response to cache`)
+            console.log(`Storing network response`)
 
             caches.open(CACHE_NAME).then(
                 cache => cache.put(event.request, response)
