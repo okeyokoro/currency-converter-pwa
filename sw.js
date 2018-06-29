@@ -16,10 +16,11 @@ this.addEventListener('install', function(event) {
             (cache) => {
                 return cache.addAll([
                     '/index.html',
-                    '/main.32dafc5221e026f05bfc.js',
-                    '/polyfills.7a0e6866a34e280f48e7.js',
-                    '/runtime.a66f828dca56eeb90e02.js',
-                    '/styles.7621cbd6ab483dbe4bee.css',
+                    '/main.js',
+                    '/polyfills.js',
+                    '/runtime.js',
+                    '/styles.js',
+                    '/vendor.js',
                     '/manifest.json',
                     'https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxPKTU1Kg.ttf'
                 ]);
