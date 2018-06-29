@@ -1,4 +1,4 @@
-# CurrencyConverter
+# Currency Converter
 A cheeky currency converter app built in accordance with the terms necessary for the completion of the Google Africa Challenge Scholarship
 
 N/B: This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.

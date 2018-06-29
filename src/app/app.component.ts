@@ -1,6 +1,7 @@
 import { Component,
          OnInit } from '@angular/core';
 import { CurrencyServiceService } from './currency-service.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +20,16 @@ export class AppComponent implements
   currencies = [];
   chart;
 
-  constructor(private currencyService: CurrencyServiceService) {}
+  constructor(private currencyService: CurrencyServiceService,
+              public snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.getCurrencies();
     this.getRate(this.c1, this.c2);
     this.getChart(this.c1, this.c2);
+
+    // this is where the offline journey begins
+    this.registerServiceWorker();
   }
 
   onSelect() {
@@ -64,5 +69,61 @@ export class AppComponent implements
 
   getChart(c1, c2) {
     this.chart = this.currencyService.fetchChart(c1, c2);
+  }
+
+  registerServiceWorker() {
+    if (!navigator.serviceWorker){ return; }
+
+    navigator.serviceWorker.register('/sw.js').then( (reg) => {
+      if (!navigator.serviceWorker.controller) {
+        return;
+      }
+
+      if (reg.waiting) {
+        console.log(`service worker waiting
+                      \n\rupdateReady() was called`);
+        this.updateReady(reg.waiting);
+      }
+
+      if (reg.installing) {
+        console.log(`service worker installing
+                    \rtrackInstalling() was called`);
+        this.trackInstalling(reg.installing);
+      }
+
+      reg.addEventListener('updatefound', (event) => this.trackInstalling(reg.installing)
+       );
+    });
+
+    let refreshing;
+
+    navigator.serviceWorker.addEventListener('controllerchange', function(event) {
+      console.log('controller has changed');
+      if (refreshing) { return; }
+      window.location.reload();
+      refreshing = true;
+    });
+
+  }
+
+  updateReady(worker) {
+
+    const snackBarRef = this.snackBar.open(`🤩Updates Available!`,
+                                           'Reload');
+    snackBarRef.afterDismissed().subscribe( (event) => {
+      console.log(`snackBar was clicked: ${event}`);
+      worker.postMessage({action: 'skipWaiting'})
+    }
+    );
+  }
+
+  trackInstalling(worker) {
+
+    console.log('inside trackInstalling');
+    worker.addEventListner('statechange', () => {
+      if (worker.state == 'installed') {
+        this.updateReady(worker);
+      }
+    });
   }
 }
