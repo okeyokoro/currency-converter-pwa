@@ -1,26 +1,18 @@
-// OBJECTIVES
-// + store actual page
-// + store server response
-// + store rate
-// + store chart
-// + update page when updates show
-// + show toaster for 'new updates'
-// + show poster saying 'showing old posts'
-
-
 const CACHE_NAME = "alc-v5";
+
+console.log('Inside Service Worker');
 
 this.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(CACHE_NAME).then(
             (cache) => {
                 return cache.addAll([
-                    '/index.html',
-                    '/main.c0692be5fde3233d7ed9.js',
-                    '/polyfills.7a0e6866a34e280f48e7.js',
-                    '/runtime.a66f828dca56eeb90e02.js',
-                    '/styles.7621cbd6ab483dbe4bee.css',
-                    '/manifest.json',
+                    `${window.location.href}index.html`,
+                    `${window.location.href}main.c0692be5fde3233d7ed9.js`,
+                    `${window.location.href}polyfills.7a0e6866a34e280f48e7.js`,
+                    `${window.location.href}runtime.a66f828dca56eeb90e02.js`,
+                    `${window.location.href}styles.7621cbd6ab483dbe4bee.css`,
+                    `${window.location.href}manifest.json`,
                     'https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxPKTU1Kg.ttf'
                 ]);
             }
