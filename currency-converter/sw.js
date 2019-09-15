@@ -1,17 +1,17 @@
-const CACHE_NAME = "alc-v2";
+const CACHE_NAME = "alc-cc-v5";
 
 this.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(CACHE_NAME).then(
             (cache) => {
-                let base = 'https://13ck015405.github.io/alc-currency-converter/';
                 return cache.addAll([
-                    `${base}index.html`,
-                    `${base}main.7e5e56438a01f4e0711b.js`,
-                    `${base}polyfills.7a0e6866a34e280f48e7.js`,
-                    `${base}runtime.a66f828dca56eeb90e02.js`,
-                    `${base}styles.7621cbd6ab483dbe4bee.css`,
-                    `${base}manifest.json`,
+                    '/index.html',
+                    '/main.js',
+                    '/polyfills.js',
+                    '/runtime.js',
+                    '/styles.js',
+                    '/vendor.js',
+                    '/manifest.json',
                     'https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxPKTU1Kg.ttf'
                 ]);
             }
