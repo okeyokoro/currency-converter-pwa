@@ -9,19 +9,21 @@ import { map } from 'rxjs/operators';
 export class CurrencyServiceService {
   protected baseUrl: string;
   protected chartUrl: string;
+  protected apiKey: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'https://free.currencyconverterapi.com/api/v5';
+    this.baseUrl = 'https://free.currconv.com/api/v7';
     this.chartUrl = 'https://www.google.com/finance/chart?q=CURRENCY';
+    this.apiKey = 'apiKey=4992f41ba9373eb0e7e6';
   }
 
   convertCurrency(c1: string, c2: string) {
-    return this.http.get(`${ this.baseUrl }/convert?q=${ c1 }_${ c2 }&compact=ultra`)
+    return this.http.get(`${ this.baseUrl }/convert?q=${ c1 }_${ c2 }&compact=ultra&${ this.apiKey }`)
                     .pipe(map(response => response));
   }
 
   fetchCurrencies() {
-    return this.http.get(`${ this.baseUrl }/currencies`)
+    return this.http.get(`${ this.baseUrl }/currencies?${ this.apiKey }`)
                     .pipe(map(response => response));
   }
 
